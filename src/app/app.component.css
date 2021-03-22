@@ -1,0 +1,24 @@
+.top {  
+  position: absolute;
+  top: 0;
+  left: 0;  
+  display: block;
+  background-color: #eee;
+  height: 3rem;
+  width: 100%;
+  color: #330033;
+  border-bottom: solid 1rem #330033;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.top section{
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr;
+}
+
+.top section img{
+  padding-left: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 15rem;
+}
