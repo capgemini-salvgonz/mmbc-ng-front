@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
+import { User } from './model/user.model';
+
 
 
 @Component({
@@ -7,11 +9,26 @@ import {CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'MMBC';
+export class AppComponent { 
+  public user: User;  
 
-  private cognito: string = "https://mmbc-application-group.auth.us-east-2.amazoncognito.com/login?client_id=14a5gt4i7ueqeh1l1kllo6d10h&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https://development.d2itkv569wz6b6.amplifyapp.com/home";
-
-  onInit() {
+  constructor(
+  ){    
   }
+
+  ngOnInit() {
+    this.user = JSON.parse(sessionStorage.getItem("user"));
+  }
+
+  ngAfterViewInit() {
+    this.user = JSON.parse(sessionStorage.getItem("user"));
+  }
+
+  onLogged(event) {
+    try{
+      this.user = JSON.parse(sessionStorage.getItem("user"));
+    }catch(error){
+      console.log(error);
+    }
+  }  
 }

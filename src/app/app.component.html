@@ -1,6 +1,14 @@
 <div class="top">
   <section>
     <img src="../assets/logo.png" alt="MyMoneyAndBudgetControl"/>
+    <div *ngIf="user">
+      <a href="/accounts">Accounts</a> 
+      <a href="/expense">Expenses</a> 
+      <a href="/investments">Investments</a>
+      <a href="/configuration">Configuration</a>
+    </div>
+    <div *ngIf="user">{{user.nickName}}</div>
   </section>
-  <login></login>
+  <router-outlet></router-outlet> 
+  <home-event (loggedUserEventEmitter)="onLogged($event)"></home-event> 
 </div>
