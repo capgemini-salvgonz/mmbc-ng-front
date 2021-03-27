@@ -1,0 +1,28 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 1.5fr 4fr;
+  width: 100%;  
+}
+
+.budget {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0 1rem;
+}
+
+.accounts {  
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-right: 1rem;
+}
+
+.budget-elements {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+}
+
+
+table {
+  width: 100%;
+}
+

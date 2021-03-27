@@ -1,14 +1,16 @@
 <div class="top">
   <section>
     <img src="../assets/logo.png" alt="MyMoneyAndBudgetControl"/>
-    <div *ngIf="user">
-      <a href="/accounts">Accounts</a> 
-      <a href="/expense">Expenses</a> 
-      <a href="/investments">Investments</a>
-      <a href="/configuration">Configuration</a>
+    <div *ngIf="user" class="navbar">
+      <a href="/accounts" class="btn btn-sm btn-outline-info mr-auto">Accounts</a> 
+      <a href="/expense" class="btn btn-sm btn-outline-info mr-auto">Expenses</a> 
+      <a href="/investments" class="btn btn-sm btn-outline-info mr-auto">Investments</a>
+      <a href="/configuration" class="btn btn-sm btn-outline-info mr-auto">Configuration</a>
     </div>
-    <div *ngIf="user">{{user.nickName}}</div>
+    <span *ngIf="user" >
+      <mat-card-subtitle> Welcome {{user.nickName}}</mat-card-subtitle>      
+    </span>  
   </section>
-  <router-outlet></router-outlet> 
+      <router-outlet></router-outlet> 
   <home-event (loggedUserEventEmitter)="onLogged($event)"></home-event> 
 </div>

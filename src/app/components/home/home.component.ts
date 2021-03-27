@@ -46,7 +46,7 @@ export class HomeComponent {
         this.user = result;        
         sessionStorage.setItem("user", JSON.stringify(this.user));
         sessionStorage.setItem("tokenId", this.idToken);        
-        this._router.navigate(['']);
+        this._router.navigate(['accounts']);
       },
       error => {
         console.log(error);

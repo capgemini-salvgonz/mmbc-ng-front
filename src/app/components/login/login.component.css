@@ -18,7 +18,8 @@
   top: 5rem;
   margin-left: auto;
   margin-right: auto; 
-  text-align: center;
+  text-align: center;  
+  padding-top: 2rem;
 }
 
 .login-link a {
@@ -28,7 +29,7 @@
   background-color: #330033;  
   text-align: center;  
   position: relative;
-  padding-top: 0.75rem;
+  padding-top: 0.5rem;
   color: white;  
   top: 1.5rem;
   left: 7.5rem;

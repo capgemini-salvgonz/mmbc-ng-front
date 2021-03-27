@@ -1,4 +1,107 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
 <home-event *ngIf="user"></home-event>
-<div *ngIf="user">
-  Hello {{user.nickName}} you are in your Account dashboard
+<div *ngIf="user" class="dashboard">
+  <div class="budget">
+    
+    <mat-card class="mt-4">
+      <span class="font-weight-bold">Total balance amount</span>
+      <hr/>
+      <h2 class="mt-2 text-center">$15,000.00</h2>
+    </mat-card>
+
+    <mat-card class="mt-4">
+      <span class="font-weight-bold budget-elements">
+        <label>Budget</label>
+        <button type="button" class="btn btn-sm btn-info">Edit</button>
+      </span>
+      <hr/>
+      <div class="budget-elements">
+        <span class="font-weight-bold">Current date</span><span class="font-italic">2021-03-26</span>
+        <span class="font-weight-bold">End of period</span><span class="font-italic">2021-04-14</span>        
+      </div>
+      <hr/>
+      <div class="budget-elements">
+        <span class="font-weight-bold">Free balance</span><span class="font-italic font-weight-bold text-primary">$12,000.00</span>
+      </div>
+      <hr/>
+      <div class="budget-elements">        
+        <span class="font-weight-bold">Monthly budget</span><span class="font-italic">$12,000.00</span>
+        <span class="font-weight-bold">Biweekly budget</span><span class="font-italic">$6,000.00</span>
+        <span class="font-weight-bold">Weekly budget</span><span class="font-italic">$3,000.00</span>
+      </div>
+      <hr/>      
+      
+      <div class="budget-elements">
+        <span class="font-weight-bold text-alert">Expenses percentage</span>
+        <span class="font-italic font-weight-bold text-danger">75%</span>
+
+        <!-- <span class="font-weight-bold text-alert">Expenses percentage</span>
+        <span class="font-italic font-weight-bold text-info">75%</span> -->
+      </div>
+      
+    </mat-card>
+  </div>
+
+  <div class="accounts">
+    <mat-card class="mt-4">
+      <span class="font-weight-bold">Accounts</span>
+      <hr/>
+      
+      <div class="budget-elements mt-0 mb-3">
+        <mat-card class="mr-1">          
+          <canvas baseChart
+            [data]="balances"
+            [labels]="polarAreaChartLabels"
+            [chartType]="polarAreaChartType"
+            [legend]="polarAreaLegend"
+            [options]="">
+          </canvas>
+        </mat-card>
+        <mat-card class="ml-1">        
+          <canvas baseChart
+            [data]="balances"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"            
+            [colors]="pieChartColors"
+            [legend]="pieChartLegend">
+          </canvas>
+        </mat-card>        
+      </div>
+
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <ng-container matColumnDef="Account">
+          <th mat-header-cell *matHeaderCellDef >Account</th>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.account}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Description">
+          <th mat-header-cell *matHeaderCellDef >Description</th>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Type">
+          <th mat-header-cell *matHeaderCellDef >Type</th>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.type}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Balance">
+          <th mat-header-cell *matHeaderCellDef >Balance</th>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> ${{element.balance}} </td>
+        </ng-container>        
+
+      </table>
+
+    </mat-card>
+  </div>
 </div>
+
+
+
