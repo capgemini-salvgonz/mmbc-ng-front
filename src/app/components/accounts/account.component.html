@@ -145,12 +145,13 @@
   </div>  
   
   <div class="modal-body">    
-    <form>
+    <form #formAccount="ngForm" >
       <div ngbDropdown class="d-inline-block mb-3">
         <button class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>
           {{account.type | accountType}}
-        </button>
+        </button>        
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <!-- <input type="hidden" value="account.type" required /> -->
           <button ngbDropdownItem (click)="changeType('D')">Debit</button>
           <button ngbDropdownItem (click)="changeType('C')">Credit</button>          
         </div>
@@ -158,23 +159,35 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Account number</mat-label>
-        <input matInput [disabled]="isEditing" [(ngModel)]="account.accountNumber" #accountNumber="ngModel" name="accountNumber">
-      </mat-form-field>
+        <input matInput 
+          [disabled]="isEditing" 
+          [(ngModel)]="account.accountNumber" 
+          #accountNumber="ngModel" 
+          name="accountNumber"
+          pattern="[0-9]+" required
+          >          
+      </mat-form-field>      
 
       <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
-        <input matInput [(ngModel)]="account.description" #description="ngModel" name="description">
+        <input matInput [(ngModel)]="account.description" #description="ngModel" name="description"
+        required 
+        >
       </mat-form-field>
       
       <mat-form-field appearance="fill">
         <mat-label>Balance amount</mat-label>
-        <input matInput matInput [(ngModel)]="account.balance" #balance="ngModel" name="balance">
+        <input matInput matInput [(ngModel)]="account.balance" #balance="ngModel" name="balance"
+        required pattern="^[1-9]{1}[0-9]*(.[0-9]+){0,1}|0(.[0-9]+){1,}$">
       </mat-form-field>
 
     </form>
   </div>  <div class="modal-footer">
     <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button> -->
-    <button type="button" class="btn btn-outline-dark" (click)="saveChanges()">Save</button>
+    <button type="button" class="btn btn-outline-info" 
+      (click)="saveChanges()"
+      [disabled]="!formAccount.form.valid"
+      >Save</button>
   </div>
 </ng-template>
 

@@ -125,7 +125,8 @@ export class AccountComponent extends UserValidation{
     this.isEditing = false;
     this.accountModalTitle = "New account";
     this.account = new Account();
-    this.account.type = "Account type";
+    this.account.type = "D";
+    this.account.accountId = null;
     this.modalService.open(content);
   }
 
