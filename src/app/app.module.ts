@@ -16,6 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+//
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 // Chart.js
 import { ChartsModule } from 'ng2-charts';
@@ -39,13 +42,21 @@ import { AccountComponent } from './components/accounts/account.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
+// Pipes
+import { AccountTypePipe } from 'src/app/components/accounts/account.type.pipe';
+import { BalanceFormatPipe } from 'src/app/components/accounts/balance.format.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     AccountComponent,
-    HomeEventComponent    
+    HomeEventComponent,
+    
+    // Pipes
+    AccountTypePipe,
+    BalanceFormatPipe
   ],
   imports: [
     BrowserModule,
@@ -55,6 +66,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     HttpClientModule,
     NgbModule,
+    NgxSpinnerModule,
     MatSliderModule,
     MatCardModule,
     MatTableModule,  
@@ -71,6 +83,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ChartsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }

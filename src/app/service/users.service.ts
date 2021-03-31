@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment';
+
 import { User } from '../model/user.model';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class UserService {
   
-  private url: string = "http://ec2-3-16-135-225.us-east-2.compute.amazonaws.com:8080/api/user";
+  private userUrl: string = environment.mmbcBackendUrl + "/user";
 
 
   constructor (
@@ -23,7 +25,7 @@ export class UserService {
       'Content-Type' : 'application/json'
     });
 
-    return this._http.get(this.url, {headers : httpHeaders}).pipe(
+    return this._http.get(this.userUrl, {headers : httpHeaders}).pipe(
       map((response:any) => response as User)
     )
   }

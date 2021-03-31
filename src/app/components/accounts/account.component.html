@@ -1,18 +1,20 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-
 <home-event *ngIf="user"></home-event>
 <div *ngIf="user" class="dashboard">
-  <div class="budget">
-    
-    <mat-card class="mt-4">
+
+  <!-- 
+    Total balance amount
+  -->
+  <div class="budget">    
+    <mat-card class="mt-4 balance-card">
       <span class="font-weight-bold">Total balance amount</span>
       <hr/>
-      <h2 class="mt-2 text-center">$15,000.00</h2>
+      <h2 class="mt-2 text-center">{{totalBalanceAmount | balanceFormat }}</h2>
     </mat-card>
 
-    <mat-card class="mt-4">
+  <!-- 
+    Budget information
+  -->
+    <mat-card class="mt-4 budget-card">
       <span class="font-weight-bold budget-elements">
         <label>Budget</label>
         <button type="button" class="btn btn-sm btn-info">Edit</button>
@@ -37,49 +39,76 @@
       <div class="budget-elements">
         <span class="font-weight-bold text-alert">Expenses percentage</span>
         <span class="font-italic font-weight-bold text-danger">75%</span>
-
-        <!-- <span class="font-weight-bold text-alert">Expenses percentage</span>
-        <span class="font-italic font-weight-bold text-info">75%</span> -->
       </div>
       
     </mat-card>
   </div>
 
-  <div class="accounts">
+  <!-- 
+    Accounts descriptions
+  -->  
+  <div class="accounts pb-3">
     <mat-card class="mt-4">
-      <span class="font-weight-bold">Accounts</span>
-      <hr/>
+      <div class="dashboard">
+        <span class="font-weight-bold">
+          Accounts          
+        </span>
+        <span class="new-account">
+          <button type="button" class="btn btn-sm btn-info" (click)="newAccount(content)">
+            Add new account            
+          </button>
+        </span>
+      </div>      
+      <hr/>         
       
-      <div class="budget-elements mt-0 mb-3">
+      <!-- 
+        Accounts charts
+      -->
+      <div class="budget-elements mt-0 mb-3 chart">
         <mat-card class="mr-1">          
           <canvas baseChart
             [data]="balances"
-            [labels]="polarAreaChartLabels"
-            [chartType]="polarAreaChartType"
-            [legend]="polarAreaLegend"
+            [labels]="chartLabels"
+            [chartType]="barAreaChartType"
+            [legend]="barAreaLegend"
+            [colors]="chartColors"
             [options]="">
           </canvas>
         </mat-card>
         <mat-card class="ml-1">        
           <canvas baseChart
             [data]="balances"
-            [labels]="pieChartLabels"
+            [labels]="chartLabels"
             [chartType]="pieChartType"
             [options]="pieChartOptions"            
-            [colors]="pieChartColors"
+            [colors]="chartColors"
             [legend]="pieChartLegend">
           </canvas>
         </mat-card>        
       </div>
 
-
+      <!-- 
+        Accounts table list
+      -->
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
+        <ng-container matColumnDef="Edit">
+          <th mat-header-cell *matHeaderCellDef >Edit / Delete</th>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell edit-delete"> 
+            <button mat-icon-button color="primary" (click)="editAccount(element, content)">
+              <mat-icon class="text-info">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="deleteAccount(element, content)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="Account">
           <th mat-header-cell *matHeaderCellDef >Account</th>
-          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.account}} </td>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.accountNumber}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Description">
@@ -89,19 +118,65 @@
 
         <ng-container matColumnDef="Type">
           <th mat-header-cell *matHeaderCellDef >Type</th>
-          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.type}} </td>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.type | accountType}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Balance">
           <th mat-header-cell *matHeaderCellDef >Balance</th>
-          <td mat-cell *matCellDef="let element" class="mat-header-cell"> ${{element.balance}} </td>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.balance | balanceFormat}} </td>
         </ng-container>        
 
       </table>
-
     </mat-card>
   </div>
 </div>
 
 
+<!-- 
+  ACCOUNT Modal window
+-->
 
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">    
+    <h4 class="modal-title font-weight-bold" id="modal-basic-title">{{accountModalTitle}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>  
+  
+  <div class="modal-body">    
+    <form>
+      <div ngbDropdown class="d-inline-block mb-3">
+        <button class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>
+          {{account.type | accountType}}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="changeType('D')">Debit</button>
+          <button ngbDropdownItem (click)="changeType('C')">Credit</button>          
+        </div>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Account number</mat-label>
+        <input matInput [disabled]="isEditing" [(ngModel)]="account.accountNumber" #accountNumber="ngModel" name="accountNumber">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput [(ngModel)]="account.description" #description="ngModel" name="description">
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Balance amount</mat-label>
+        <input matInput matInput [(ngModel)]="account.balance" #balance="ngModel" name="balance">
+      </mat-form-field>
+
+    </form>
+  </div>  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button> -->
+    <button type="button" class="btn btn-outline-dark" (click)="saveChanges()">Save</button>
+  </div>
+</ng-template>
+
+
+<ngx-spinner></ngx-spinner>
