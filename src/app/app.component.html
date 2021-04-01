@@ -7,9 +7,9 @@
       <a href="/investments" class="btn btn-sm btn-outline-info mr-auto">Investments</a>
       <a href="/configuration" class="btn btn-sm btn-outline-info mr-auto">Configuration</a>
     </div>
-    <span *ngIf="user">
+    <span *ngIf="user" class="welcome">
       <mat-card-subtitle> 
-        Welcome {{user.nickName}}
+        <span class="greet">Welcome {{user.nickName}}</span>
         <button mat-icon-button color="accent" (click)="logoff()">
           <mat-icon>logout</mat-icon>
         </button>       

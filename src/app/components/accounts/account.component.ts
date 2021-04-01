@@ -79,9 +79,9 @@ export class AccountComponent extends UserValidation{
    * And retrieves account list for the logged user
    */
   ngOnInit(): void {
-    this.spinner.show();    
+    this.spinner.show();
     this.validateUser();
-    this.retrieveAccounts();    
+    this.retrieveAccounts();        
   }
 
   /**

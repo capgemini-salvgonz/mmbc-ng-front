@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
 import { Account } from '../model/account.model';
 
 
-
 @Injectable()
 export class AccountService {
   
@@ -44,7 +43,6 @@ export class AccountService {
   deleteAccout(account: Account){    
     this.createHeaders();
     let deleteUrl = this.accountUrl+"/delete";
-    console.log(deleteUrl);
     
     return this._http.post(deleteUrl, account, {headers: this.httpHeaders}).pipe(
       map((response:any) => response)

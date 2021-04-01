@@ -63,3 +63,37 @@ form {
 .edit-delete{
   width: 8rem;
 }
+
+@media screen and (max-width: 750px) {
+  .dashboard {
+    display: grid;    
+    grid-template-columns: 1fr;
+    width: 100%;    
+  }
+
+  .accounts {  
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-right: 1rem;
+  }
+
+  .chart {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%; 
+  }
+
+  .chart .mr-1{
+    margin-bottom: 1rem;
+  }
+
+  .font-weight-bold {
+    display: none;
+  }
+
+  .budget {
+    display: none;
+  }
+
+}
+
