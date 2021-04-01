@@ -31,4 +31,10 @@ export class AppComponent {
       console.log(error);
     }
   }  
+
+  logoff(){
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("tokenId");
+    window.location.href = "/login";
+  }
 }

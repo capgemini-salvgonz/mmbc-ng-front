@@ -28,11 +28,12 @@ import { PIE_CHART_OPTIONS, CHART_COLORS } from '../utils/chart.config';
 export class AccountComponent extends UserValidation{
 
   public account: Account = new Account();
+  public accountToDelete: Account = new Account();
   public accountModalTitle: string;
   public isEditing: boolean = false;
   
   /** Account table configuration */
-  public displayedColumns: string[] = ['Edit', 'Account', 'Description', 'Type', 'Balance'];
+  public displayedColumns: string[] = ['Edit', 'Account', 'Description', 'Type', 'Balance', 'Movements'];
   public dataSource: any;
   public totalBalanceAmount: number = 0;
   /** END Account table configuration */
@@ -163,9 +164,14 @@ export class AccountComponent extends UserValidation{
    * Delete account
    * @param accountToDelete 
    */
-  deleteAccount(accountToDelete: Account, content:any) { 
+  deleteAccount(accountToDelete: Account, confirm:any) {
+    this.accountToDelete = accountToDelete;
+    this.modalService.open(confirm);
+  }
+
+  commitAccountDeletion() {
     this.spinner.show();
-    this._accountService.deleteAccout(accountToDelete).subscribe(
+    this._accountService.deleteAccout(this.accountToDelete).subscribe(
       result => {
         window.location.reload();        
       },

@@ -7,8 +7,13 @@
       <a href="/investments" class="btn btn-sm btn-outline-info mr-auto">Investments</a>
       <a href="/configuration" class="btn btn-sm btn-outline-info mr-auto">Configuration</a>
     </div>
-    <span *ngIf="user" >
-      <mat-card-subtitle class="mt-4"> Welcome {{user.nickName}}</mat-card-subtitle>      
+    <span *ngIf="user">
+      <mat-card-subtitle> 
+        Welcome {{user.nickName}}
+        <button mat-icon-button color="accent" (click)="logoff()">
+          <mat-icon>logout</mat-icon>
+        </button>       
+      </mat-card-subtitle>      
     </span>  
   </section>
       <router-outlet></router-outlet> 

@@ -100,7 +100,7 @@
             <button mat-icon-button color="primary" (click)="editAccount(element, content)">
               <mat-icon class="text-info">edit</mat-icon>
             </button>
-            <button mat-icon-button color="accent" (click)="deleteAccount(element, content)">
+            <button mat-icon-button color="accent" (click)="deleteAccount(element, confirm)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -124,7 +124,19 @@
         <ng-container matColumnDef="Balance">
           <th mat-header-cell *matHeaderCellDef >Balance</th>
           <td mat-cell *matCellDef="let element" class="mat-header-cell"> {{element.balance | balanceFormat}} </td>
-        </ng-container>        
+        </ng-container>
+
+        <ng-container matColumnDef="Movements">
+          <th mat-header-cell *matHeaderCellDef>Transfer / Expense</th>
+          <td mat-cell *matCellDef="let element" class="mat-header-cell edit-delete"> 
+            <button mat-icon-button color="primary" >
+              <mat-icon class="text-secondary">drive_file_move</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" >
+              <mat-icon class="text-secondary">request_quote</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
       </table>
     </mat-card>
@@ -182,14 +194,34 @@
       </mat-form-field>
 
     </form>
-  </div>  <div class="modal-footer">
-    <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button> -->
+  </div>  
+  <div class="modal-footer">    
     <button type="button" class="btn btn-outline-info" 
       (click)="saveChanges()"
       [disabled]="!formAccount.form.valid"
-      >Save</button>
+      >Save
+    </button>
   </div>
 </ng-template>
 
+<!-- 
+  Modal confirm Account deletion 
+-->
+<ng-template #confirm let-c="close" let-d="dismiss">
+  <div class="modal-header">    
+    <h4 class="modal-title font-weight-bold" id="modal-basic-title">Account deletion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete your account [{{accountToDelete.accountNumber}}, {{accountToDelete.description}}]?    
+  </div>
+  <div class="modal-footer">    
+    <button type="button" class="btn btn-outline-info" (click)="d('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="commitAccountDeletion()">Delete</button>
+  </div> 
+
+</ng-template>
 
 <ngx-spinner></ngx-spinner>
