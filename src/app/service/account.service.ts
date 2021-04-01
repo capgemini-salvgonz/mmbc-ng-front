@@ -23,9 +23,7 @@ export class AccountService {
     this.authorization = "Bearer " + sessionStorage.getItem("tokenId");
     this.httpHeaders = new HttpHeaders({
       'Authorization': this.authorization,
-      'Content-Type' : 'application/json',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Origin': 'http://localhost:4200'
+      'Content-Type' : 'application/json'
     });
   }
 
