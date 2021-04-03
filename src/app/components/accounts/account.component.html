@@ -17,7 +17,7 @@
     <mat-card class="mt-4 budget-card">
       <span class="font-weight-bold budget-elements">
         <label>Budget</label>
-        <button type="button" class="btn btn-sm btn-info">Edit</button>
+        <button type="button" class="btn btn-sm btn-info" (click)="openBudget()">Edit</button>
       </span>
       <hr/>
       <div class="budget-elements">
@@ -26,8 +26,10 @@
       </div>
       <hr/>
       <div class="budget-elements">
-        <span class="font-weight-bold">Free balance</span><span class="font-italic font-weight-bold text-primary">$12,000.00</span>
+        <span class="font-weight-bold">Available balance</span><span class="font-italic font-weight-bold text-primary">$12,000.00</span>
+        <span class="font-weight-bold">Pending fixed expenses</span><span class="font-italic font-weight-bold text-danger">$12,000.00</span>
       </div>
+      <span class="font-italic font-weight-bold text-primary mt-1">1.86 weeks left on period</span>
       <hr/>
       <div class="budget-elements">        
         <span class="font-weight-bold">Monthly budget</span><span class="font-italic">$12,000.00</span>
@@ -190,12 +192,13 @@
       <mat-form-field appearance="fill">
         <mat-label>Balance amount</mat-label>
         <input matInput matInput [(ngModel)]="account.balance" #balance="ngModel" name="balance"
-        required pattern="^[1-9]{1}[0-9]*(.[0-9]+){0,1}|0(.[0-9]+){1,}$">
+        required pattern="^[1-9]{1}[0-9]*((.[0-9]+){0,1}|0(.[0-9]+){1,})$">
       </mat-form-field>
 
     </form>
   </div>  
-  <div class="modal-footer">    
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-info" (click)="d('Cross click')">Cancel</button>       
     <button type="button" class="btn btn-outline-info" 
       (click)="saveChanges()"
       [disabled]="!formAccount.form.valid"
@@ -215,13 +218,18 @@
     </button>
   </div>
   <div class="modal-body">
-    Are you sure you want to delete your account [{{accountToDelete.accountNumber}}, {{accountToDelete.description}}]?    
+    <span class="text-info h4">Are you sure you want to delete your account?    </span>
+    <p class="mt-1">
+      <strong>Account: </strong>{{accountToDelete.accountNumber}}<br/>
+      <strong>Description: </strong> {{accountToDelete.description}}<br/>
+      <strong>Balance: </strong> {{accountToDelete.balance | balanceFormat}}
+    </p>
   </div>
   <div class="modal-footer">    
     <button type="button" class="btn btn-outline-info" (click)="d('Cross click')">Cancel</button>
     <button type="button" class="btn btn-outline-danger" (click)="commitAccountDeletion()">Delete</button>
   </div> 
-
 </ng-template>
+
 
 <ngx-spinner></ngx-spinner>

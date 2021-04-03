@@ -20,6 +20,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgxSpinnerModule } from "ngx-spinner";
 
+//bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 // Chart.js
 import { ChartsModule } from 'ng2-charts';
 
@@ -39,8 +42,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HomeEventComponent } from './components/home/home.event.component';
 import { LoginComponent } from './components/login/login.component';
 import { AccountComponent } from './components/accounts/account.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { BudgetComponent } from './components/budget/budget.component';
 
 // Pipes
 import { AccountTypePipe } from 'src/app/components/accounts/account.type.pipe';
@@ -53,6 +55,7 @@ import { BalanceFormatPipe } from 'src/app/components/accounts/balance.format.pi
     HomeComponent,
     AccountComponent,
     HomeEventComponent,
+    BudgetComponent,
     
     // Pipes
     AccountTypePipe,
