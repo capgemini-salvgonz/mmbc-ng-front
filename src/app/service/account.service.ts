@@ -5,37 +5,29 @@ import {map} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { Account } from '../model/account.model';
+import { HttpUtil } from './utils/http.util';
 
 
 @Injectable()
-export class AccountService {
+export class AccountService extends HttpUtil {
   
   private accountUrl: string = environment.mmbcBackendUrl + "/accounts";
-  private authorization: string;
-  private httpHeaders: HttpHeaders;
 
   constructor (
     private _http: HttpClient
-  ) { }
-
-  createHeaders() {
-    this.authorization = "Bearer " + sessionStorage.getItem("tokenId");
-    this.httpHeaders = new HttpHeaders({
-      'Authorization': this.authorization,
-      'Content-Type' : 'application/json'
-    });
+  ) { 
+    super();
   }
 
-  getAccounts() {
-    this.createHeaders();
-    return this._http.get(this.accountUrl, {headers : this.httpHeaders}).pipe(
+  getAccounts() {    
+    return this._http.get(this.accountUrl, {headers: this.createHeaders()}).pipe(
       map( (response:any) => response as Array<Account>)
     );
   }
 
   postAccount(account: Account){
     this.createHeaders();
-    return this._http.post(this.accountUrl, account, {headers: this.httpHeaders}).pipe(
+    return this._http.post(this.accountUrl, account, {headers: this.createHeaders()}).pipe(
       map((response:any) => response)
     );
   }
@@ -44,7 +36,7 @@ export class AccountService {
     this.createHeaders();
     let deleteUrl = this.accountUrl+"/delete";
     
-    return this._http.post(deleteUrl, account, {headers: this.httpHeaders}).pipe(
+    return this._http.post(deleteUrl, account, {headers: this.createHeaders()}).pipe(
       map((response:any) => response)
     );
   }

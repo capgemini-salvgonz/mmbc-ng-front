@@ -8,6 +8,7 @@ import { ExpenseComponent } from './components/expense/expense.component';
 import { AccountComponent } from './components/accounts/account.component';
 import { InvestmentComponent } from './components/investments/investment.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { BudgetComponent } from './components/budget/budget.component';
 
 const appRoutes: Routes = [
   {path:'', component:LoginComponent},
@@ -15,6 +16,7 @@ const appRoutes: Routes = [
   {path:'home', component:HomeComponent},
   {path:'expense', component:ExpenseComponent},
   {path:'accounts', component:AccountComponent},
+  {path:'budget', component:BudgetComponent},
   {path:'investments', component:InvestmentComponent},
   {path:'configuration', component:ConfigurationComponent},
 ];

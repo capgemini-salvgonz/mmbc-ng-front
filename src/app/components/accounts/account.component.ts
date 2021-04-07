@@ -181,6 +181,7 @@ export class AccountComponent extends UserValidation{
     );
   }
 
-  openBudget(){    
+  openBudget(){
+    this._router.navigate(['budget']);
   }
 }
