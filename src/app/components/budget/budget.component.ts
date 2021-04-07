@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { UserValidation } from '../utils/user.validation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountService } from 'src/app/service/account.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { MatTableDataSource } from '@angular/material/table';
+
+//Services
+import { AccountService } from 'src/app/service/account.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExpenseTypeService } from 'src/app/service/expenses.service';
+import { UserValidation } from '../utils/user.validation';
+
+//Model
 import { ExpenseType } from 'src/app/model/expenseType.model';
 import { FixedExpense } from 'src/app/model/fixedExpense.model';
 
@@ -17,9 +22,13 @@ import { FixedExpense } from 'src/app/model/fixedExpense.model';
 })
 export class BudgetComponent extends UserValidation{
 
-  public expenseTypes: ExpenseType[];
+  public expenseTypes: ExpenseType[];  
   public fixedExpense: FixedExpense = new FixedExpense();
-  public expenseType: ExpenseType = new ExpenseType();
+
+  // Expenses list
+  public displayedColumns: string[] = ['Expense type', 'Amount', 'Description' , 'Edit / Delete'];
+  public dataSource: MatTableDataSource<FixedExpense>;
+
 
   /**
    * Constructor 
@@ -50,6 +59,7 @@ export class BudgetComponent extends UserValidation{
   ngOnInit(): void {
     this.validateUser();
     this.getExpenseTypes();
+    this.getFixedExpenses();
   }
 
   /**
@@ -64,12 +74,30 @@ export class BudgetComponent extends UserValidation{
     );
   }
 
+  /**
+   *  Get fixed expenses
+   */
+  getFixedExpenses() {
+    this._expenseService.getFixedExpenses().subscribe(
+      result => {
+        this.dataSource = new MatTableDataSource<FixedExpense>(result);
+        console.log(result);
+      },
+      error => {console.log(error);}
+    );
+  }
+
+  /**
+   * Add fixed expense
+   */
   addFixedExpense() {
     this.fixedExpense.active = 1;
     let fixedExpense = new FixedExpense();
     fixedExpense = {...this.fixedExpense};
-    this.fixedExpense = new FixedExpense();
-    console.log(fixedExpense);
     window.location.reload();
+  }
+
+  getExpenseTypeDescription(expenseTypeId:number): string{
+    return this.expenseTypes.find(e => e.expenseTypeId == expenseTypeId).description;
   }
 }

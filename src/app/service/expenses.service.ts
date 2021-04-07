@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 
 import { ExpenseType } from 'src/app/model/expenseType.model';
 import { HttpUtil } from './utils/http.util';
+import { FixedExpense } from '../model/fixedExpense.model';
 
 @Injectable()
 export class ExpenseTypeService extends HttpUtil {
@@ -24,6 +25,12 @@ export class ExpenseTypeService extends HttpUtil {
   getExpenseTypes(){
     return this._http.get(this.expensesTypesURL, {headers: this.createHeaders()}).pipe(
       map((response:any) => response as Array<ExpenseType>)
+    );
+  }
+
+  getFixedExpenses() {
+    return this._http.get(this.fixedExpensesURL, {headers: this.createHeaders()}).pipe(
+      map((response:any) => response as Array<FixedExpense>)
     );
   }
 }

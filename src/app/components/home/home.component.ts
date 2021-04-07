@@ -34,8 +34,6 @@ export class HomeComponent {
       this.idToken = res.id_token;
     });
 
-    console.log(this.idToken);
-
     if(!this.idToken){
       return;
     }
