@@ -33,4 +33,10 @@ export class ExpenseTypeService extends HttpUtil {
       map((response:any) => response as Array<FixedExpense>)
     );
   }
+
+  postFixedExpenses(fixedExpense: FixedExpense) {
+    return this._http.post(this.fixedExpensesURL, fixedExpense,{headers: this.createHeaders()}).pipe(
+      map(r=>r)
+    );
+  }
 }

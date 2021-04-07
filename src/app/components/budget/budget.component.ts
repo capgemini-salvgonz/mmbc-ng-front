@@ -57,6 +57,7 @@ export class BudgetComponent extends UserValidation{
    * Validate User Session 
    */
   ngOnInit(): void {
+    this.spinner.show();
     this.validateUser();
     this.getExpenseTypes();
     this.getFixedExpenses();
@@ -81,9 +82,12 @@ export class BudgetComponent extends UserValidation{
     this._expenseService.getFixedExpenses().subscribe(
       result => {
         this.dataSource = new MatTableDataSource<FixedExpense>(result);
-        console.log(result);
+        this.spinner.hide();
       },
-      error => {console.log(error);}
+      error => {
+        console.log(error);
+        this.spinner.hide();
+      }
     );
   }
 
@@ -91,11 +95,21 @@ export class BudgetComponent extends UserValidation{
    * Add fixed expense
    */
   addFixedExpense() {
+    this.spinner.show();
     this.fixedExpense.active = 1;
     let fixedExpense = new FixedExpense();
     fixedExpense = {...this.fixedExpense};
-    window.location.reload();
+    
+    this._expenseService.postFixedExpenses(this.fixedExpense).subscribe(
+      result => {        
+        window.location.reload();
+      },
+      error => {
+        window.location.reload();
+      }
+    );
   }
+
 
   getExpenseTypeDescription(expenseTypeId:number): string{
     return this.expenseTypes.find(e => e.expenseTypeId == expenseTypeId).description;
