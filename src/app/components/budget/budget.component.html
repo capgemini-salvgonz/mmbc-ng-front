@@ -1,5 +1,48 @@
 <div *ngIf="user" class="dashboard">
-  <div>
-    Estoy en el budget component
-  </div>
+  
+  <mat-card class="mt-4 balance-card">
+    <span class="font-weight-bold">Fixed expenses</span>
+    <hr/>
+    
+    <form #frmExpense="ngForm">
+
+      <mat-form-field appearance="fill" class="form-item w-25"> 
+        <mat-label>Expense type</mat-label>
+        <mat-select #type="ngModel" [(ngModel)]="fixedExpense.expenseTypeId" name="type">
+          <mat-option *ngFor="let type of expenseTypes" [value]="type.expenseTypeId">
+            {{type.description}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="ml-3 w-25">
+        <mat-label>Amount</mat-label>
+        <input matInput matInput name="amount"
+        #amount="ngModel" [(ngModel)]="fixedExpense.amount"
+        required pattern="^[1-9]{1}[0-9]*((.[0-9]+){0,1}|0(.[0-9]+){1,})$">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="ml-3 w-25">
+        <mat-label>Description</mat-label>
+        <input matInput  
+        name="description" #description="ngModel" [(ngModel)]="fixedExpense.description"
+        required>
+      </mat-form-field>
+      
+      <button mat-mini-fab color="basic" class="ml-3 mb-3" (click)="addFixedExpense()">
+        <mat-icon class="text-info">note_add</mat-icon> 
+      </button>      
+
+    </form>
+
+    <span>
+      Type: {{fixedExpense.expenseTypeId}}
+      Description: {{fixedExpense.description}}, 
+      Amount: {{fixedExpense.amount}}, 
+      Active: {{fixedExpense.active}}
+    </span>
+    <hr/>
+
+  </mat-card>
 </div>
+

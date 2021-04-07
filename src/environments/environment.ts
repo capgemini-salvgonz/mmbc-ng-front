@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // mmbcBackendUrl: "http://localhost:8080/api",
-  // mmbcBackendUrl: "http://ec2-18-144-165-120.us-west-1.compute.amazonaws.com:8080/api",  
+  //mmbcBackendUrl: "http://ec2-18-144-165-120.us-west-1.compute.amazonaws.com:8080/api",  
   mmbcBackendUrl: "https://y54vemhme3.execute-api.us-west-1.amazonaws.com/development_fase/api",
 };
 

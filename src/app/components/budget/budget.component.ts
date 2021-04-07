@@ -5,6 +5,9 @@ import { AccountService } from 'src/app/service/account.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExpenseTypeService } from 'src/app/service/expenses.service';
+import { ExpenseType } from 'src/app/model/expenseType.model';
+import { FixedExpense } from 'src/app/model/fixedExpense.model';
+
 
 @Component({
   selector: 'budget',
@@ -13,6 +16,22 @@ import { ExpenseTypeService } from 'src/app/service/expenses.service';
   providers: [AccountService, ExpenseTypeService, NgbModalConfig, NgbModal] 
 })
 export class BudgetComponent extends UserValidation{
+
+  public expenseTypes: ExpenseType[];
+  public fixedExpense: FixedExpense = new FixedExpense();
+  public expenseType: ExpenseType = new ExpenseType();
+
+  /**
+   * Constructor 
+   * 
+   * @param _route 
+   * @param _router 
+   * @param _accountService 
+   * @param _expenseService 
+   * @param config 
+   * @param modalService 
+   * @param spinner 
+   */
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -33,10 +52,24 @@ export class BudgetComponent extends UserValidation{
     this.getExpenseTypes();
   }
 
+  /**
+   * Get expense types
+   */
   getExpenseTypes() {
     this._expenseService.getExpenseTypes().subscribe(
-      result => console.log(result),
+      result => {
+        this.expenseTypes = [...result];
+      },
       error => console.log(error)
     );
+  }
+
+  addFixedExpense() {
+    this.fixedExpense.active = 1;
+    let fixedExpense = new FixedExpense();
+    fixedExpense = {...this.fixedExpense};
+    this.fixedExpense = new FixedExpense();
+    console.log(fixedExpense);
+    window.location.reload();
   }
 }

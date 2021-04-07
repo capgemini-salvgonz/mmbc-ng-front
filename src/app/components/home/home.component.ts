@@ -27,14 +27,14 @@ export class HomeComponent {
     .pipe(
       map(fragment => new URLSearchParams(fragment)),
       map(params => ({
-        access_token: params.get('access_token'),
-        id_token: params.get('id_token'),
-        expires_in: params.get('expires_in'),
+        id_token: params.get('id_token'),        
       }))
     )
     .subscribe(res => {
       this.idToken = res.id_token;
     });
+
+    console.log(this.idToken);
 
     if(!this.idToken){
       return;
