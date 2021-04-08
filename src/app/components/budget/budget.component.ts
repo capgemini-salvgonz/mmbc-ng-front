@@ -4,7 +4,6 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
 
 //Services
-import { AccountService } from 'src/app/service/account.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ExpenseTypeService } from 'src/app/service/expenses.service';
 import { UserValidation } from '../utils/user.validation';
@@ -12,18 +11,25 @@ import { UserValidation } from '../utils/user.validation';
 //Model
 import { ExpenseType } from 'src/app/model/expenseType.model';
 import { FixedExpense } from 'src/app/model/fixedExpense.model';
+import { RevenueService } from 'src/app/service/revenue.service';
+import { Revenue } from 'src/app/model/revenue.model';
 
 
 @Component({
   selector: 'budget',
   templateUrl: 'budget.component.html',
   styleUrls: ['budget.component.css'],
-  providers: [AccountService, ExpenseTypeService, NgbModalConfig, NgbModal] 
+  providers: [ExpenseTypeService, RevenueService, NgbModalConfig, NgbModal] 
 })
 export class BudgetComponent extends UserValidation{
 
+  public isExpenseActive: boolean = true;
   public expenseTypes: ExpenseType[];  
   public fixedExpense: FixedExpense = new FixedExpense();
+
+  //Revenue entries
+  public revenueDisplayedColumns: string[] = ['Description', 'Amount', 'Edit / Delete'];
+  public revenueDataSource: MatTableDataSource<Revenue>;
 
   // Expenses list
   public displayedColumns: string[] = ['Expense type', 'Amount', 'Description' , 'Edit / Delete'];
@@ -44,8 +50,8 @@ export class BudgetComponent extends UserValidation{
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _accountService: AccountService,
     private _expenseService: ExpenseTypeService,
+    private _revenueService: RevenueService,
     config: NgbModalConfig, 
     private modalService: NgbModal,
     private spinner: NgxSpinnerService
@@ -61,6 +67,19 @@ export class BudgetComponent extends UserValidation{
     this.validateUser();
     this.getExpenseTypes();
     this.getFixedExpenses();
+    this.getRevenues();
+  }
+
+  /**
+   * Get Revenues
+   */
+  getRevenues() {
+    this._revenueService.getRevenues().subscribe(
+      result => {
+        this.revenueDataSource = new MatTableDataSource<Revenue>(result);
+      },
+      error => console.log(error)
+    );
   }
 
   /**
@@ -110,8 +129,11 @@ export class BudgetComponent extends UserValidation{
     );
   }
 
-
-  getExpenseTypeDescription(expenseTypeId:number): string{
+  getExpenseTypeDescription(expenseTypeId:number): string { 
     return this.expenseTypes.find(e => e.expenseTypeId == expenseTypeId).description;
+  }
+
+  setExpenseActive(isActive: boolean){
+    this.isExpenseActive = isActive;
   }
 }
