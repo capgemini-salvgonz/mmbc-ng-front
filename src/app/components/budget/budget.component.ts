@@ -32,7 +32,7 @@ export class BudgetComponent extends UserValidation{
   public revenueDataSource: MatTableDataSource<Revenue>;
 
   // Expenses list
-  public displayedColumns: string[] = ['Expense type', 'Amount', 'Description' , 'Edit / Delete'];
+  public displayedColumns: string[] = ['Expense type', 'Description', 'Amount', 'Edit / Delete'];
   public dataSource: MatTableDataSource<FixedExpense>;
 
 
