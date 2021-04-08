@@ -26,11 +26,10 @@ export class RevenueService extends HttpUtil {
     );
   }
 
-  /*
-  getFixedExpenses() {
-    return this._http.get(this.fixedExpensesURL, {headers: this.createHeaders()}).pipe(
-      map((response:any) => response as Array<FixedExpense>)
+  postRevenueEntry(revenue : Revenue) {
+    return this._http.post(this.revenueURL, revenue, {headers: this.createHeaders()}).pipe(
+      map((response:any) => response as any)
     );
   }
-*/
+
 }

@@ -30,6 +30,7 @@ export class BudgetComponent extends UserValidation{
   //Revenue entries
   public revenueDisplayedColumns: string[] = ['Description', 'Amount', 'Edit / Delete'];
   public revenueDataSource: MatTableDataSource<Revenue>;
+  public newRevenue : Revenue = new Revenue();
 
   // Expenses list
   public displayedColumns: string[] = ['Expense type', 'Description', 'Amount', 'Edit / Delete'];
@@ -68,6 +69,24 @@ export class BudgetComponent extends UserValidation{
     this.getExpenseTypes();
     this.getFixedExpenses();
     this.getRevenues();
+  }
+
+  /**
+   * Save revenue
+   */
+  saveRevenue() {
+    this.spinner.show();
+    this._revenueService.postRevenueEntry(this.newRevenue).subscribe(
+      next => {
+        console.log(next);
+        this.spinner.hide();
+        window.location.reload();
+      },
+      error => {
+        console.log(error);
+        this.spinner.hide();
+      }
+    );
   }
 
   /**
