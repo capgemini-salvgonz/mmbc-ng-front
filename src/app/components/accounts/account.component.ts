@@ -13,9 +13,13 @@ import { NgxSpinnerService } from "ngx-spinner";
 // App components
 import { UserValidation } from '../utils/user.validation';
 import { AccountService } from '../../service/account.service';
+import { BudgetService } from '../../service/budget.service';
+
 import { Account } from 'src/app/model/account.model';
+
 // App constants
 import { PIE_CHART_OPTIONS, CHART_COLORS } from '../utils/chart.config';
+import { BudgetDashboard } from 'src/app/model/budgetDasboard.model';
 
 
 
@@ -23,11 +27,12 @@ import { PIE_CHART_OPTIONS, CHART_COLORS } from '../utils/chart.config';
   selector: 'account',
   templateUrl: 'account.component.html',
   styleUrls: ['account.component.css'],
-  providers: [AccountService, NgbModalConfig, NgbModal]       
+  providers: [AccountService, BudgetService, NgbModalConfig, NgbModal]       
 })
 export class AccountComponent extends UserValidation{
 
   public account: Account = new Account();
+  public budgetDashboard: BudgetDashboard = new BudgetDashboard();
   public accountToDelete: Account = new Account();
   public accountModalTitle: string;
   public isEditing: boolean = false;
@@ -67,6 +72,7 @@ export class AccountComponent extends UserValidation{
     private _route: ActivatedRoute,
     private _router: Router,
     private _accountService: AccountService,
+    private _budgetService: BudgetService,
     config: NgbModalConfig, 
     private modalService: NgbModal,
     private spinner: NgxSpinnerService
@@ -81,7 +87,19 @@ export class AccountComponent extends UserValidation{
   ngOnInit(): void {
     this.spinner.show();
     this.validateUser();
-    this.retrieveAccounts();        
+    this.retrieveAccounts();
+    this.getBudgetDashboard();      
+  }
+
+  /**
+   * Consumes Budget API in order to 
+   * retrieve the main dashboard
+   */
+  getBudgetDashboard() {
+    this._budgetService.getBudgetDashboard().subscribe(
+      result => this.budgetDashboard = result,
+      error => this.validateError(error)
+    );
   }
 
   /**
@@ -100,13 +118,7 @@ export class AccountComponent extends UserValidation{
         this.balances.push(0);
         this.spinner.hide();
       },
-      error => {
-        if(error.status == 403){
-          // No authorized request, the user must to log in
-          sessionStorage.removeItem("user");
-          this._router.navigate(['login']);
-        }
-      }
+      error => this.validateError(error)
     );
   }
 
@@ -154,7 +166,8 @@ export class AccountComponent extends UserValidation{
       result => {         
         window.location.reload();
       },
-      error => {        
+      error => {    
+        this.validateError(error);
         window.location.reload();
       }
     );
@@ -176,6 +189,7 @@ export class AccountComponent extends UserValidation{
         window.location.reload();        
       },
       error => {
+        this.validateError(error);
         window.location.reload();
       }
     );

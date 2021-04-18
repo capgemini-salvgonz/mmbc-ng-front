@@ -21,20 +21,25 @@
       </span>
       <hr/>
       <div class="budget-elements">
-        <span class="font-weight-bold">Current date</span><span class="font-italic">2021-03-26</span>
-        <span class="font-weight-bold">End of period</span><span class="font-italic">2021-04-14</span>        
+        <span class="font-weight-bold">Current date</span><span class="font-italic">{{budgetDashboard.currentDate}}</span>
+        <span class="font-weight-bold">End of period</span><span class="font-italic">{{budgetDashboard.endOfPeriod}}</span>        
       </div>
       <hr/>
       <div class="budget-elements">
-        <span class="font-weight-bold">Available balance</span><span class="font-italic font-weight-bold text-primary">$12,000.00</span>
-        <span class="font-weight-bold">Pending fixed expenses</span><span class="font-italic font-weight-bold text-danger">$12,000.00</span>
+        <span class="font-weight-bold">Available balance</span>
+        <span class="font-italic font-weight-bold text-primary">{{budgetDashboard.availableBalance | balanceFormat}}</span>
+        <span class="font-weight-bold">Pending fixed expenses</span>
+        <span class="font-italic font-weight-bold text-danger">{{budgetDashboard.pendingFixedExpenses | balanceFormat}}</span>
       </div>
-      <span class="font-italic font-weight-bold text-primary mt-1">1.86 weeks left on period</span>
+      <span class="font-italic font-weight-bold text-primary mt-1">{{budgetDashboard.pendingWeeks |  number: '1.2-2'}} weeks left on period</span>
       <hr/>
       <div class="budget-elements">        
-        <span class="font-weight-bold">Monthly budget</span><span class="font-italic">$12,000.00</span>
-        <span class="font-weight-bold">Biweekly budget</span><span class="font-italic">$6,000.00</span>
-        <span class="font-weight-bold">Weekly budget</span><span class="font-italic">$3,000.00</span>
+        <span class="font-weight-bold">Monthly budget</span>
+        <span class="font-italic">{{budgetDashboard.monthlyBudget | balanceFormat}}</span>
+        <span class="font-weight-bold">Biweekly budget</span>
+        <span class="font-italic">{{budgetDashboard.biweeklyBudget | balanceFormat}}</span>
+        <span class="font-weight-bold">Weekly budget</span>
+        <span class="font-italic">{{budgetDashboard.weeklyBudget | balanceFormat}}</span>
       </div>
       <hr/>      
       
@@ -192,7 +197,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Balance amount</mat-label>
         <input matInput matInput [(ngModel)]="account.balance" #balance="ngModel" name="balance"
-        required pattern="^[1-9]{1}[0-9]*((.[0-9]+){0,1}|0(.[0-9]+){1,})$">
+        required pattern="^[1-9]{1}[0-9]*((.[0-9]+))|0(.[0-9]+){1,}$">
       </mat-form-field>
 
     </form>

@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatRadioModule} from '@angular/material/radio'; 
+
 //
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -83,6 +85,7 @@ import { BalanceFormatPipe } from 'src/app/components/accounts/balance.format.pi
     MatSelectModule,	 
     MatSortModule,	 	 
     MatPaginatorModule,
+    MatRadioModule,
     ChartsModule
   ],
   providers: [],

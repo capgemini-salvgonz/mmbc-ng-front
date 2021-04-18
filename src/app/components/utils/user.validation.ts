@@ -23,4 +23,13 @@ export class UserValidation {
       this._routers.navigate(['login']);
     }
   }
+
+  validateError(error: any){
+    if(error.status == 403){
+      // No authorized request, the user must to log in
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("tokenId");
+      this._routers.navigate(['login']);
+    }
+  }
 }
