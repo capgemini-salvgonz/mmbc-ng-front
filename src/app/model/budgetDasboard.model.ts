@@ -1,10 +1,14 @@
 export class BudgetDashboard {
   
   public allowedExpensePercentage: number;
+  
+  public currentExpensePercentage: number;
 ​
   public availableBalance: number;
 ​
   public biweeklyBudget: number;
+
+  public totalRevenues: number;
 ​
   public currentDate: string;
 ​
@@ -18,5 +22,15 @@ export class BudgetDashboard {
 ​
   public weeklyBudget: number;
   
-  constructor(){}
+  constructor(){
+    this.allowedExpensePercentage = 0;
+    this.availableBalance = 0;
+    this.biweeklyBudget = 0;
+    this.monthlyBudget = 0;
+    this.pendingFixedExpenses = 0;
+    this.pendingWeeks = 0;
+    this.weeklyBudget = 0;
+    this.totalRevenues = 0;
+    this.currentExpensePercentage = 0;
+  }
 }

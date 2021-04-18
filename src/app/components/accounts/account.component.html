@@ -44,8 +44,12 @@
       <hr/>      
       
       <div class="budget-elements">
-        <span class="font-weight-bold text-alert">Expenses percentage</span>
-        <span class="font-italic font-weight-bold text-danger">75%</span>
+        <span class="font-weight-bold text-info">Expenses percentage</span>
+        <span class="font-italic font-weight-bold text-info">{{budgetDashboard.allowedExpensePercentage/100 | percent}}</span>
+      </div>
+      <div class="budget-elements">
+        <span class="font-weight-bold text-primary">Current Expenses percentage</span>
+        <span class="font-italic font-weight-bold text-primary">{{budgetDashboard.currentExpensePercentage | percent}}</span>
       </div>
       
     </mat-card>

@@ -97,7 +97,13 @@ export class AccountComponent extends UserValidation{
    */
   getBudgetDashboard() {
     this._budgetService.getBudgetDashboard().subscribe(
-      result => this.budgetDashboard = result,
+      result => {
+        if(result.currentDate){
+          this.budgetDashboard = result;
+          this.budgetDashboard.currentExpensePercentage = 
+            ((result.totalRevenues - result.monthlyBudget))/result.totalRevenues;
+        }        
+      },
       error => this.validateError(error)
     );
   }
